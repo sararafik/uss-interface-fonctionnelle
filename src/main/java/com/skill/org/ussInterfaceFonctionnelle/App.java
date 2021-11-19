@@ -1,30 +1,34 @@
 package com.skill.org.ussInterfaceFonctionnelle;
 
-import java.util.function.Consumer;
-import java.util.function.Predicate;
+
 import java.util.function.Supplier;
 
 public class App 
 {
 	    public static void main( String[] args )
 	    {
-	       
-	        Supplier<String> supplier = () -> {return "consome supplier"; };
-	        System.out.println(supplier.get());
-	        
-	        Consumer<Integer> consumer = (Integer hint) -> {System.out.println("printing"+hint); };
-	        consumer.accept(10);
-	        
-	        Predicate<Integer> predicate = ( hint) -> {
-	        	if (hint % 2 == 0) {
-					return true;
+	    	
+	    	Process process = new Process();
+	    	process.executeSupplier(new Supplier<String>() {
+
+				@Override
+				public String get() {
+					System.out.println("commit transaction");
+					return "commit transaction";
 				}
-	        	else {
-					return false;
-				}
-	        };
-	        
-	        System.out.println(predicate.test(10));
+	    		
+	    	} );
+	    	process.executeSupplier(() -> {
+	    		System.out.println("rollback transaction");
+	    		return "rollback transaction"; 
+	    		
+	    	});
+	    	process.executeSupplier(() -> {
+	    		System.out.println("traitement 1");
+	    		return "rollback transaction"; 
+	    		
+	    	});
+	    	
 	        
 	    }
  
